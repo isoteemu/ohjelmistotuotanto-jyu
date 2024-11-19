@@ -53,3 +53,52 @@ Login With Nonexistent Username
 ```
 
 Suorita testitapauksissa sopivat avainsanat, jotta haluttu tapaus tulee testattua.
+
+
+### 3. Uuden käyttäjän rekisteröitymisen testit
+
+Lisää testihakemistoon uusi testitiedosto _register.robot_. Toteuta tiedostoon user storylle _A new user account can be created if a proper unused username and a proper password are given_ seuraavat testitapaukset:
+
+```
+*** Test Cases ***
+Register With Valid Username And Password
+# ...
+
+Register With Already Taken Username And Valid Password
+# ...
+
+Register With Too Short Username And Valid Password
+# ...
+
+Register With Enough Long But Invalid Username And Valid Password
+# ...
+
+Register With Valid Username And Too Short Password
+# ...
+
+Register With Valid Username And Long Enough Password Containing Only Letters
+# ...
+```
+
+- Käyttäjätunnuksen on oltava merkeistä a-z koostuva vähintään 3 merkin pituinen merkkijono, joka ei ole vielä käytössä. Vinkki: [säännölliset lausekkeet](https://www.tutorialspoint.com/python/python_reg_expressions.htm) ja <a href="https://regexr.com/5fslc">^[a-z]+$</a>.
+- Salasanan on oltava pituudeltaan vähintään 8 merkkiä ja se _ei saa_ koostua pelkästään kirjaimista.
+- Säännöllisten lausekkeiden kokeilu ja testaaminen onnistuu hyvin esim. seuraavassa palvelussa <https://rubular.com/>
+
+Säännöllisissä lausekkeissa voi hyödyntää Pythonin _re_-moduulia seuraavasti:
+
+```python
+import re
+
+if re.match("^[a-z]+$", "kalle"):
+  print("Ok")
+else:
+  print("Virheellinen")
+```
+
+**Tee testitapauksista suoritettavia ja täydennä ohjelmaa siten että testit menevät läpi**. Oikea paikka koodiin tuleville muutoksille on <i>src/services/user_service.py</i>-tiedoston `UserService`-luokan metodi `validate`.
+
+**Vinkki 2**: et välttämättä tarvitse säännöllisiä lausekkeita mihinkään...
+
+**HUOM 1:** Testitapaukset kannattaa toteuttaa yksi kerrallaan, laittaen samalla vastaava ominaisuus ohjelmasta kuntoon. Eli **ÄLÄ** copypastea ylläolevaa kerrallaan tiedostoon, vaan etene pienin askelin. Jos yksi testitapaus ei mene läpi, älä aloita uuden tekemistä ennen kuin kaikki ongelmat on selvitetty. Seuraava luku antaa muutaman vihjeen testien debuggaamiseen.
+
+**HUOM 2:** Saattaa olla hyödyllistä toteuttaa _resource.robot_-tiedostoon avainsana `Input New Command` ja _register.robot_-tiedostoon avainsana `Input New Command And Create User`, joka antaa sovellukselle _new_-komennon ja luo käyttäjän testejä varten. Avainsana kannattaa suorittaa ennen jokaista testitapausta hyödyntämällä `Test Setup`-asetusta.
