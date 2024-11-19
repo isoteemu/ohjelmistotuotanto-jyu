@@ -1,4 +1,9 @@
-.vscode
+.vscode/
 .DS_Store
 *.pyc
 *.lock
+.pytest_cache/
+.venv/
+osa3/hello-robot/log.html
+osa3/hello-robot/output.xml
+osa3/hello-robot/report.html
