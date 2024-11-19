@@ -7,6 +7,15 @@ Login With Correct Credentials
     Input Credentials  kalle  kalle123
     Output Should Contain  Logged in
 
+*** Test Cases ***
+Login With Incorrect Password
+    Input Credentials  kalle  notkalle12
+    Output Should Contain  Invalid username or password
+
+Login With Nonexistent Username
+    Input Credentials  notkalle  kalle123
+    Output Should Contain  Invalid username or password
+
 *** Keywords ***
 Create User And Input Login Command
     Create User  kalle  kalle123
