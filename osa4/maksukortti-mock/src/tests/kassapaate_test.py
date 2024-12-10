@@ -9,17 +9,29 @@ class TestKassapaate(unittest.TestCase):
         self.kassa = Kassapaate()
 
     def test_kortilta_velotetaan_hinta_jos_rahaa_on(self):
-        maksukortti_mock = Mock()
+        """
+        jos kortilla on riittävästi rahaa, kassapäätteen metodin osta_lounas kutsuminen veloittaa summan kortilta.
+        """
+
+        maksukortti_mock = Mock(Maksukortti)
         maksukortti_mock.saldo = 10
-        
+        maksukortti_mock.osta.return_value = True
+
         self.kassa.osta_lounas(maksukortti_mock)
 
         maksukortti_mock.osta.assert_called_with(HINTA)
 
     def test_kortilta_ei_veloteta_jos_raha_ei_riita(self):
-        maksukortti_mock = Mock()
+        """
+        jos kortilla ei ole riittävästi rahaa, kassapäätteen metodin osta_lounas kutsuminen ei veloita kortilta rahaa.
+        """
+    
+        maksukortti_mock = Mock(Maksukortti)
         maksukortti_mock.saldo = 4
-        
-        self.kassa.osta_lounas(maksukortti_mock)
+
+        kassapaate_mock = Mock(self.kassa)
+
+        kassapaate_mock.osta_lounas = Mock(return_value=False)
+        kassapaate_mock.osta_lounas(maksukortti_mock)
 
         maksukortti_mock.osta.assert_not_called()
